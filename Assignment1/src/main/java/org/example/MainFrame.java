@@ -25,6 +25,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
         JButton subButton = new JButton("Scadere");
         subButton.addActionListener(this);
+       // subButton.setActionCommand("Scadere");
         subButton.setBackground(Color.PINK);
 
         JButton inmButton = new JButton("Inmultire");
@@ -33,6 +34,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
         JButton divButton = new JButton("Impartire");
         divButton.addActionListener(this);
+      //  divButton.setActionCommand("Impartire");
         divButton.setBackground(Color.PINK);
 
         JButton deriv = new JButton("Derivare");
