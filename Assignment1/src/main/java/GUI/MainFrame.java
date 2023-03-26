@@ -1,16 +1,18 @@
-package org.example;
+package GUI;
+
+import org.polinom.Operatii;
+import org.polinom.Polinom;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements ActionListener {
 
     private JTextField polinom1;
     private JTextField polinom2;
-    public static JTextField resultArea;
+    private static JTextField resultArea;
 
     public MainFrame(){
 

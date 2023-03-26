@@ -1,4 +1,6 @@
-package org.example;
+package org.polinom;
+
+import GUI.MainFrame;
 
 public class Operatii {
 
@@ -34,7 +36,7 @@ public class Operatii {
             result.put(key, q.get(key));
         }
         MainFrame.set(result);
-        System.out.println(result.toString());
+        //System.out.println(result.toString());
 
     }
 
@@ -44,7 +46,7 @@ public class Operatii {
         for (Integer i1 : p.keySet()){
             for( Integer i2 : q.keySet()){
                 Integer cheie=i1+i2;
-                Double value=p.get(i1)*q.get(i2);
+                Integer value=p.get(i1)*q.get(i2);
                 result.put(cheie, value);
             }
         }
@@ -56,7 +58,7 @@ public class Operatii {
 
         Polinom result= new Polinom("");
         for (Integer i: p.keySet()) {
-            double coef = p.get(i) * i;
+            int coef = p.get(i) * i;
             if(i>0) result.put(i-1,coef);
         }
         MainFrame.set(result);
@@ -65,7 +67,7 @@ public class Operatii {
 
         Polinom result= new Polinom("");
         for (Integer i: p.keySet()) {
-            double coef = p.get(i)/(i+1);
+            int coef = p.get(i)/(i+1);
            result.put(i+1,coef);
         }
         MainFrame.set(result);
