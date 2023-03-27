@@ -2,9 +2,13 @@ package org.polinom;
 
 import GUI.MainFrame;
 
+import java.util.Collections;
+import java.util.NoSuchElementException;
+
 public class Operatii {
 
-    public static void Adunare(Polinom p, Polinom q) {
+
+    public static Polinom Adunare(Polinom p, Polinom q) {
 
         Polinom result = new Polinom("");
 
@@ -17,44 +21,100 @@ public class Operatii {
 
         for (Integer key : q.keySet()) result.put(key, q.get(key));
 
-        MainFrame.set(result);
-        System.out.println(result.toString());
+         MainFrame.set(result);
+         System.out.println(result.toString());
+        return result;
     }
 
-    public static void Scadere(Polinom p, Polinom q){
+    public static Polinom Scadere(Polinom p, Polinom q){
 
         Polinom result = new Polinom("");
 
-        for (Integer key : p.keySet()) {
-            if (q.containsKey(key)) {
-                result.put(key,p.get(key) - q.get(key));
-                q.remove(key);
-            } else
-                result.put(key, p.get(key));
-        }
         for (Integer key : q.keySet()) {
-            result.put(key, q.get(key));
+            int valoare=q.get(key);
+            q.setValue(key,-valoare);
         }
-        MainFrame.set(result);
-        //System.out.println(result.toString());
 
+        result=Operatii.Adunare(p,q);
+//        for (Integer key : p.keySet()) {
+//            if (q.containsKey(key)) {
+//                result.put(key,p.get(key) - q.get(key));
+//                q.remove(key);
+//            } else
+//                result.put(key, p.get(key));
+//        }
+//        for (Integer key : q.keySet()) {
+//            result.put(key, q.get(key));
+//        }
+        MainFrame.set(result);
+        return result;
     }
 
-    public static void Inmultire(Polinom p, Polinom q){
+    public static Polinom Inmultire(Polinom p, Polinom q){
 
         Polinom result = new Polinom("");
-        for (Integer i1 : p.keySet()){
-            for( Integer i2 : q.keySet()){
-                Integer cheie=i1+i2;
-                Integer value=p.get(i1)*q.get(i2);
+        for (Integer i : p.keySet()){
+            for( Integer j : q.keySet()){
+                Integer cheie=i+j;
+                Integer value=p.get(i)*q.get(j);
                 result.put(cheie, value);
             }
         }
         MainFrame.set(result);
+        return result;
 
     }
-    public static void Impartire(Polinom p, Polinom q){}
-    public static void Derivare(Polinom p){
+
+    public static Polinom Impartire(Polinom p, Polinom q){
+
+        Polinom copie1 = p;
+        Polinom copie2 = q;
+
+        Polinom rezult = new  Polinom("");
+        Polinom rest = new  Polinom("");
+        Polinom temp = new  Polinom("");
+
+        if (p==null || q==null)  {MainFrame.set(""); return rezult;}
+
+        Integer degreeP=Collections.max(p.keySet());
+        Integer degreeQ=Collections.max(q.keySet());
+
+        if (degreeQ > degreeP) {
+            rezult.put(0,0);
+            MainFrame.set(rezult.toString());
+            return rezult;}
+
+        if(q.get(degreeQ).equals(0)) {MainFrame.set("Impartire cu 0"); return rezult;}
+        if(degreeQ.equals(0) && q.get(degreeQ).equals(0) ) {MainFrame.set("Impartire cu 0"); return rezult;}
+        if(degreeQ.equals(0) && !q.get(degreeQ).equals(0) ) {degreeQ++;}
+
+            while (degreeP >= degreeQ) {
+                int tempCoeff=0;
+                try{
+                tempCoeff = p.get(degreeP) / q.get(degreeQ);}
+                catch(NullPointerException e) {MainFrame.set(rezult); return rezult;}
+                int tempPower = degreeP - degreeQ;
+                temp.put(tempPower, tempCoeff);
+                rezult = Operatii.Adunare(rezult, temp);
+                p= Operatii.Scadere(p, Operatii.Inmultire(q,temp));
+                p.remove(degreeP);
+                try{
+                degreeP=Collections.max(p.keySet());}
+                catch (NoSuchElementException e){MainFrame.set(rezult); return rezult;}
+           }
+        rest = Operatii.Scadere(copie1,Operatii.Inmultire(copie2, rezult));
+
+        String imp= new String(" ");
+        imp=rezult.toString();
+        imp+=", rest ";
+        imp+=rest.toString();
+
+        MainFrame.set(imp);
+        return rezult;
+     }
+
+
+    public static Polinom Derivare(Polinom p){
 
         Polinom result= new Polinom("");
         for (Integer i: p.keySet()) {
@@ -62,8 +122,9 @@ public class Operatii {
             if(i>0) result.put(i-1,coef);
         }
         MainFrame.set(result);
+        return result;
     }
-    public static void Integrare(Polinom p, Polinom q){
+    public static Polinom Integrare(Polinom p){
 
         Polinom result= new Polinom("");
         for (Integer i: p.keySet()) {
@@ -71,5 +132,6 @@ public class Operatii {
            result.put(i+1,coef);
         }
         MainFrame.set(result);
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package org.polinom;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -56,8 +57,10 @@ public class Polinom {
             String u = m.group(1);
             if (u == null) return 1;
             if (u == "-") return -1;
-            i = Integer.parseInt(u);
+           try{ i = Integer.parseInt(u);}
+           catch (NumberFormatException e){ i=1; }
         }
+
         return i;
     }
 
@@ -125,5 +128,38 @@ public class Polinom {
         }
         if (prim) s.append("0");
         return s.toString();
+    }
+
+    public int getOrDefault(int i, int i1) { //returns the value to which the specified key is mapped
+
+        Integer value = terms.get(i);
+        return (value != null) ? value : i1;
+    }
+
+    public int size() {
+        return terms.size();
+    }
+
+    public int[] getCoefficients() {
+        int degree= Collections.max(terms.keySet());
+        int[] coeff= new int[degree+1];
+        for (int i=0;i<=degree;i++){
+            coeff[i]=terms.getOrDefault(i,0);
+        }
+        return coeff;
+    }
+
+//    public int[] getPower() {
+//        int degree= Collections.max(terms.keySet());
+//        int[] powers = new int [degree+1];
+//        for (int i=0;i<=degree;i++){
+//            powers[i]=i;
+//        }
+//        return powers;
+//    }
+
+
+    public void setValue(int key, int i) {
+        terms.put(key,i);
     }
 }

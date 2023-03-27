@@ -47,6 +47,10 @@ public class MainFrame extends JFrame implements ActionListener {
         integrare.addActionListener(this);
         integrare.setBackground(Color.PINK);
 
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(this);
+        clear.setBackground(Color.PINK);
+
         JPanel POL = new JPanel(new GridLayout(3,2));
         POL.add(new JLabel("POLINOMUL 1:"));
         POL.add(polinom1);
@@ -62,8 +66,9 @@ public class MainFrame extends JFrame implements ActionListener {
         panel.add(integrare);
 
         JPanel panelrez= new JPanel(new FlowLayout(2));
-        panelrez.add(new JLabel("REZULTATE"));
+        panelrez.add(new JLabel("REZULTAT"));
         panelrez.add(resultArea);
+        panelrez.add(clear);
 
         ///////////////////////////////////////////////////////////////
 
@@ -73,7 +78,7 @@ public class MainFrame extends JFrame implements ActionListener {
         add(panelrez, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 300);
+        setSize(500, 500);
         setVisible(true);////////////////////////////////////////////////
     }
 
@@ -103,7 +108,12 @@ public class MainFrame extends JFrame implements ActionListener {
                 Operatii.Derivare(p1);
                 break;
             case "Integrare":
-                Operatii.Integrare(p1,p2);
+                Operatii.Integrare(p1);
+                break;
+            case "Clear":
+                polinom1.setText("");
+                polinom2.setText("");
+                resultArea.setText("");
                 break;
 
         }
@@ -111,6 +121,13 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public static void set(Polinom poli){
 
-        resultArea.setText(poli.toString());
+        try{
+         resultArea.setText(poli.toString());}
+        catch (NullPointerException e){}
+    }
+
+    public static void set(String poli) {
+       try{ resultArea.setText(poli);}
+       catch (NullPointerException e){}
     }
 }
