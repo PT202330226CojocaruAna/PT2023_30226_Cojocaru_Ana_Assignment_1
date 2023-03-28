@@ -1,8 +1,6 @@
 package org.polinom;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,6 +93,12 @@ public class Polinom {
     }
 
     public Set<Integer> keySet() {
+        return terms.keySet();
+    }
+
+    public Set<Integer> keySorted(){
+        Map<Integer, Integer> sorted = new TreeMap<Integer, Integer>(Collections.reverseOrder());
+        sorted.putAll(terms);
         return terms.keySet();
     }
 

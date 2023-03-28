@@ -2,8 +2,7 @@ package org.polinom;
 
 import GUI.MainFrame;
 
-import java.util.Collections;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Operatii {
 
@@ -55,9 +54,15 @@ public class Operatii {
         Polinom result = new Polinom("");
         for (Integer i : p.keySet()){
             for( Integer j : q.keySet()){
-                Integer cheie=i+j;
-                Integer value=p.get(i)*q.get(j);
-                result.put(cheie, value);
+                if(!result.containsKey(i+j)) {
+                    result.put(i+j, p.get(i)*q.get(j));
+                }
+                else {   int var=result.get(i+j);
+                  //  Integer cheie = i + j;
+                    Integer value = p.get(i) * q.get(j);
+                    value+=var;
+                    result.put(i+j, value);
+                }
             }
         }
         MainFrame.set(result);
@@ -67,23 +72,15 @@ public class Operatii {
 
     public static Polinom Impartire(Polinom p, Polinom q){
 
-        Polinom copie1 = p;
-        Polinom copie2 = q;
-
         Polinom rezult = new  Polinom("");
-        Polinom rest = new  Polinom("");
         Polinom temp = new  Polinom("");
-
         if (p==null || q==null)  {MainFrame.set(""); return rezult;}
-
         Integer degreeP=Collections.max(p.keySet());
         Integer degreeQ=Collections.max(q.keySet());
-
         if (degreeQ > degreeP) {
             rezult.put(0,0);
             MainFrame.set(rezult.toString());
             return rezult;}
-
         if(q.get(degreeQ).equals(0)) {MainFrame.set("Impartire cu 0"); return rezult;}
         if(degreeQ.equals(0) && q.get(degreeQ).equals(0) ) {MainFrame.set("Impartire cu 0"); return rezult;}
         if(degreeQ.equals(0) && !q.get(degreeQ).equals(0) ) {degreeQ++;}
@@ -102,13 +99,8 @@ public class Operatii {
                 degreeP=Collections.max(p.keySet());}
                 catch (NoSuchElementException e){MainFrame.set(rezult); return rezult;}
            }
-        rest = Operatii.Scadere(copie1,Operatii.Inmultire(copie2, rezult));
-
         String imp= new String(" ");
-        imp=rezult.toString();
-        imp+=", rest ";
-        imp+=rest.toString();
-
+        imp=rezult.toString()+", rest "+p.toString();
         MainFrame.set(imp);
         return rezult;
      }
